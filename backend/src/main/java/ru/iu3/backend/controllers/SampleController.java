@@ -12,4 +12,4 @@ public class SampleController {
     public String getTitle() {
         return "<title>Hello from Back-end</title>";
     }
-}   
+}
