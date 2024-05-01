@@ -16,40 +16,35 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-import ru.iu3.backend.models.Artist;
+import ru.iu3.backend.models.Museum;
 import ru.iu3.backend.models.Country;
-import ru.iu3.backend.repositories.ArtistRepository;
 import ru.iu3.backend.repositories.CountryRepository;
+import ru.iu3.backend.repositories.MuseumRepository;
 
 @RestController
 @RequestMapping("/api/v1")
-public class ArtistController {
+public class MuseumController {
     @Autowired
-    ArtistRepository artistRepository;
+    MuseumRepository museumRepository;
 
     @Autowired
     CountryRepository countryRepository;
 
-    @GetMapping("/artists")
+    @GetMapping("/museums")
     public List getAllartists() {
-        return artistRepository.findAll();
+        return museumRepository.findAll();
     }
 
-    @PostMapping("/artists")
-    public ResponseEntity<Object> createArtist(@RequestBody Artist artist)
+    @PostMapping("/museums")
+    public ResponseEntity<Object> createArtist(@RequestBody Museum museum)
             throws Exception {
         try {
-            Optional<Country>
-                    cc = countryRepository.findById(artist.country.id);
-            if (cc.isPresent()) {
-                artist.country = cc.get();
-            }
-            Artist nc = artistRepository.save(artist);
+            Museum nc = museumRepository.save(museum);
             return new ResponseEntity<Object>(nc, HttpStatus.OK);
         }
         catch(Exception ex) {
             String error;
-            if (ex.getMessage().contains("artists.name_UNIQUE"))
+            if (ex.getMessage().contains("museums.name_UNIQUE"))
                 error = "county already exists";
             else
                 error = "undefined error";
@@ -60,30 +55,30 @@ public class ArtistController {
         }
     }
 
-    @PutMapping("/artists/{id}")
-    public ResponseEntity<Artist> updateArtist(@PathVariable(value = "id") Long artistId,
-                                               @RequestBody Artist artistDetails) {
-        Artist Artist = null;
-        Optional<Artist>
-                cc = artistRepository.findById(artistId);
+    @PutMapping("/museums/{id}")
+    public ResponseEntity<Museum> updateArtist(@PathVariable(value = "id") Long museumId,
+                                               @RequestBody Museum museumDetails) {
+        Museum museum = null;
+        Optional<Museum>
+                cc = museumRepository.findById(museumId);
         if (cc.isPresent()) {
-            Artist = cc.get();
-            Artist.name = artistDetails.name;
-            artistRepository.save(Artist);
-            return ResponseEntity.ok(Artist);
+            museum = cc.get();
+            museum.name = museumDetails.name;
+            museumRepository.save(museum);
+            return ResponseEntity.ok(museum);
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Artist not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Museum not found");
         }
     }
 
-    @DeleteMapping("/artists/{id}")
-    public ResponseEntity<Object> deleteArtist(@PathVariable(value = "id") Long artistId) {
-        Optional<Artist>
-                Artist = artistRepository.findById(artistId);
+    @DeleteMapping("/museums/{id}")
+    public ResponseEntity<Object> deleteArtist(@PathVariable(value = "id") Long museumId) {
+        Optional<Museum>
+                museum = museumRepository.findById(museumId);
         Map<String, Boolean>
                 resp = new HashMap<>();
-        if (Artist.isPresent()) {
-            artistRepository.delete(Artist.get());
+        if (museum.isPresent()) {
+            museumRepository.delete(museum.get());
             resp.put("deleted", Boolean.TRUE);
         }
         else
