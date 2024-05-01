@@ -1,4 +1,4 @@
-package ru.iu3.backend.Tools;
+package ru.iu3.backend.tools;
 
 import org.springframework.security.crypto.codec.Hex;
 import java.security.MessageDigest;
