@@ -7,10 +7,8 @@ import javax.persistence.*;
 @Access(AccessType.FIELD)
 public class Artist {
 
-    public Artist() { }
-    public Artist(Long id) {
-        this.id = id;
-    }
+    public Artist() {}
+    public Artist(Long id) {this.id = id;}
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +21,7 @@ public class Artist {
     @Column(name = "age", nullable = false)
     public String age;
 
-    @ManyToOne()
-    @JoinColumn(name = "country_id")
+    @ManyToOne
+    @JoinColumn(name = "countryid")
     public Country country;
 }
