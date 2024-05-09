@@ -1,7 +1,6 @@
-package ru.iu3.backend.models;
+package ru.iu3.backend.model;
 
 import javax.persistence.*;
-
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -53,4 +52,6 @@ public class User {
         this.museums.remove(m);
         m.users.remove(this);
     }
+
+
 }

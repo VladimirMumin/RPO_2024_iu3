@@ -1,4 +1,4 @@
-package ru.iu3.backend.models;
+package ru.iu3.backend.model;
 
 import javax.persistence.*;
 
@@ -7,8 +7,10 @@ import javax.persistence.*;
 @Access(AccessType.FIELD)
 public class Artist {
 
-    public Artist() {}
-    public Artist(Long id) {this.id = id;}
+    public Artist() { }
+    public Artist(Long id) {
+        this.id = id;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +23,7 @@ public class Artist {
     @Column(name = "age", nullable = false)
     public String age;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "countryid")
     public Country country;
 }

@@ -1,14 +1,14 @@
-package ru.iu3.backend.controllers;
+package ru.iu3.backend.controller;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,15 +18,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-import ru.iu3.backend.models.Museum;
-import ru.iu3.backend.models.User;
-import ru.iu3.backend.repositories.MuseumRepository;
-import ru.iu3.backend.repositories.UserRepository;
-
+import ru.iu3.backend.model.Museum;
+import ru.iu3.backend.model.User;
+import ru.iu3.backend.repository.MuseumRepository;
+import ru.iu3.backend.repository.UserRepository;
 import javax.validation.Valid;
+
 
 @RestController
 @RequestMapping("/api/v1")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UsersController {
 
     @Autowired
@@ -62,7 +63,7 @@ public class UsersController {
 
     @PutMapping("/users/{id}")
     public ResponseEntity<User> updateArtist(@PathVariable(value = "id") Long userId,
-                                             @RequestBody User userDetails) {
+            @RequestBody User userDetails) {
         User user;
         Optional<User>
                 cc = userRepository.findById(userId);
@@ -94,7 +95,7 @@ public class UsersController {
 
     @PostMapping("/users/{id}/addmuseums")
     public ResponseEntity<Object> addMuseums(@PathVariable(value = "id") Long userId,
-                                             @Valid @RequestBody Set<Museum> museums) {
+            @Valid @RequestBody Set<Museum> museums) {
         Optional<User> uu = userRepository.findById(userId);
         int cnt = 0;
         if (uu.isPresent()) {
@@ -116,7 +117,7 @@ public class UsersController {
 
     @PostMapping("/users/{id}/removemuseums")
     public ResponseEntity<Object> removeMuseums(@PathVariable(value = "id") Long userId,
-                                                @Valid @RequestBody Set<Museum> museums) {
+            @Valid @RequestBody Set<Museum> museums) {
         Optional<User> uu = userRepository.findById(userId);
         int cnt = 0;
         if (uu.isPresent()) {
